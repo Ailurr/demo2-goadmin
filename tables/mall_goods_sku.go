@@ -56,7 +56,7 @@ func GetMallGoodsSkuTable(ctx *context.Context) table.Table {
 		var defaultSkuId int
 		models.Orm.Raw(`SELECT "mall_goods_sku_id" FROM mall_goods WHERE id = ?`, values.Get("mall_goods_id")).Scan(&defaultSkuId)
 		if defaultSkuId == 0 {
-			rows := models.Orm.Exec("UPDATE mall_goods SET mall_goods_sku_id =? WHERE id = ?", values.Get("id"), values.Get("mall_goods_id")).RowsAffected
+			rows := models.Orm.Exec(`UPDATE mall_goods SET mall_goods_sku_id =? WHERE id = ?`, values.Get("id"), values.Get("mall_goods_id")).RowsAffected
 			if rows == 0 || rows == 1 {
 				return nil
 			} else {
