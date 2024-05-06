@@ -1,6 +1,8 @@
 package tables
 
 import (
+	"demo2-goadmin/models"
+	"fmt"
 	"github.com/GoAdminGroup/go-admin/context"
 	"github.com/GoAdminGroup/go-admin/modules/db"
 	"github.com/GoAdminGroup/go-admin/plugins/admin/modules/table"
@@ -36,6 +38,15 @@ func GetMallGoodsTable(ctx *context.Context) table.Table {
 	})
 	info.AddField("创建时间", "created_at", db.Timestamp)
 	info.AddField("更新时间", "updated_at", db.Timestamp)
+
+	info.AddField("SKUs", "mall_goods_sku_id", db.Varchar).FieldDisplay(func(model types.FieldModel) interface{} {
+		type result struct {
+			Spec string `json:"spec"`
+		}
+		var res []result
+		models.Orm.Raw(`SELECT spec FROM mall_goods_sku where mall_goods_id = ?`, model.Row["id"].(int64)).Scan(&res)
+		return fmt.Sprint(res)
+	})
 
 	info.SetTable("mall_goods").SetTitle("MallGoods").SetDescription("MallGoods")
 
