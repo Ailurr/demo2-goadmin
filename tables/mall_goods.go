@@ -20,7 +20,8 @@ func GetMallGoodsTable(ctx *context.Context) table.Table {
 
 	info.AddField("ID", "id", db.Int).
 		FieldFilterable().FieldCopyable()
-	info.AddField("标题", "title", db.Varchar)
+	info.AddField("标题", "title", db.Varchar).FieldFilterable(types.FilterType{Operator: types.FilterOperatorLike})
+
 	info.AddField("现价", "price", db.Decimal)
 	info.AddField("原价", "cost_price", db.Decimal)
 	info.AddField("默认SKU", "spec", db.Int).FieldJoin(types.Join{
